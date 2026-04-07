@@ -1,0 +1,36 @@
+{
+  "name": "part4-bloglist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node --test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fergonzalez47/part4-bloglist.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/fergonzalez47/part4-bloglist/issues"
+  },
+  "homepage": "https://github.com/fergonzalez47/part4-bloglist#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.1",
+    "express": "^5.2.1",
+    "lodash.groupby": "^4.6.0",
+    "lodash.maxby": "^4.6.0",
+    "mongoose": "^9.4.1",
+    "morgan": "^1.10.1"
+  },
+  "devDependencies": {
+    "eslint": "^10.2.0",
+    "nodemon": "^3.1.14"
+  }
+}
