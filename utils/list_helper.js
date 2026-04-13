@@ -26,7 +26,6 @@ const mostBlogs = (blogs) => {
         author,
         blogs: groupedByAuthor[author].length
     }))
-    console.log(counts);
     return maxBy(counts, 'blogs');
     
 }
@@ -38,7 +37,6 @@ const mostLikes = (blogs) => {
         author,
         likes: groupedByAuthor[author].reduce((sum, blog) => sum + blog.likes, 0)
     }))
-    console.log(counts);
     return maxBy(counts, 'likes');
 }
 
