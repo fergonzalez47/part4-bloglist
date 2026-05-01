@@ -17,16 +17,10 @@ blogRouter.get('/', async (request, response, next) => {
 })
 
 blogRouter.post('/', middleware.userExtractor, async (request, response, next) => {
+
     let body = request.body;
-
-    // const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    // if (!decodedToken.id) {
-    //     return response.status(401).json({ error: 'token invalid' })
-    // }
-    // const user = await User.findById(decodedToken.id)
-
-
     const user = request.user;
+
     const newBlog = new Blog({
         title: body.title,
         author: body.author,
@@ -40,7 +34,14 @@ blogRouter.post('/', middleware.userExtractor, async (request, response, next) =
         user.blogs = user.blogs.concat(savedBlog._id)
         await user.save()
 
-        response.status(201).json(savedBlog)
+        const populatedBlog = await savedBlog.populate("user", {
+            username: 1,
+            name: 1
+        })
+
+        response.status(201).json(populatedBlog).populate({
+
+        })
 
     } catch (exception) {
         next(exception)
@@ -49,11 +50,8 @@ blogRouter.post('/', middleware.userExtractor, async (request, response, next) =
 
 blogRouter.delete('/:id', middleware.userExtractor, async (request, response, next) => {
 
- 
     try {
-
         const user = request.user;
-
         if (!user) {
             return response.status(401).json({ error: 'user not found' })
         }
@@ -93,14 +91,22 @@ blogRouter.put("/:id", async (request, response, next) => {
     try {
         const id = request.params.id;
         const body = request.body;
+
         const updatedBlog = {
             title: body.title,
             author: body.author,
             url: body.url,
-            likes: body.likes
+            likes: body.likes,
+            user: body.user
 
         }
-        const blog = await Blog.findByIdAndUpdate(id, updatedBlog, { returnDocument: 'after', runValidators: true, context: 'query' });
+        const blog = await Blog.findByIdAndUpdate(id, updatedBlog, { returnDocument: 'after', runValidators: true, context: 'query' })
+            .populate("user", {
+                username: 1,
+                name: 1
+            });
+        
+        
         if (!blog) {
             response.status(404).end();
         }
